@@ -13,47 +13,80 @@ import { motion } from "framer-motion"
 
 const features = [
   {
-    icon: Rocket,
-    title: "Deploy instantáneo",
+    icon: Cpu,
+    title: "Ryzen & EPYC",
+    subtitle:
+      "Máximo rendimiento",
     description:
-      "Tu servidor listo en minutos sin configuraciones complejas.",
+      "Gaming & cloud workloads",
+    featured: true,
   },
+
   {
     icon: Shield,
-    title: "Enterprise Anti-DDoS",
+    title: "Anti-DDoS",
+    subtitle:
+      "Siempre protegido",
     description:
-      "Protección avanzada contra ataques con mitigación automática.",
+      "Mitigación avanzada",
   },
+
   {
-    icon: Cpu,
-    title: "Ryzen & EPYC Hardware",
+    icon: Rocket,
+    title: "Deploy rápido",
+    subtitle:
+      "Servidor listo",
     description:
-      "Infraestructura de alto rendimiento para máxima estabilidad.",
+      "En cuestión de segundos",
   },
+
   {
     icon: Globe,
     title: "Baja latencia",
+    subtitle:
+      "Ubicaciones premium",
     description:
-      "Nodos optimizados para gaming y cloud workloads.",
+      "Miami • Germany • Madrid",
   },
+
   {
     icon: Database,
-    title: "Backups automáticos",
+    title: "Backups",
+    subtitle:
+      "Todo protegido",
     description:
-      "Protección constante de tu información y configuraciones.",
+      "Protección automática",
   },
+
   {
     icon: Headphones,
-    title: "Soporte humano",
+    title: "Soporte real",
+    subtitle:
+      "24/7 disponible",
     description:
-      "Nada de bots absurdos. Personas reales listas para ayudarte.",
+      "Personas reales",
   },
 ]
 
 export default function WhyChooseSection() {
   return (
-    <section className="relative py-28">
-      <div className="mx-auto max-w-7xl px-6">
+    <section className="relative overflow-hidden py-28">
+      {/* glow */}
+      <div
+        className="
+          absolute
+          left-1/2
+          top-[10%]
+          h-125
+          w-125
+          -translate-x-1/2
+          rounded-full
+          bg-cyan-500/10
+          blur-[150px]
+        "
+      />
+
+      <div className="relative mx-auto max-w-7xl px-6">
         {/* HEADER */}
         <motion.div
           initial={{
@@ -64,18 +97,23 @@ export default function WhyChooseSection() {
             opacity: 1,
             y: 0,
           }}
-          viewport={{ once: true }}
+          viewport={{
+            once: true,
+          }}
           transition={{
             duration: 0.6,
           }}
-          className="mx-auto mb-16 max-w-3xl text-center"
+          className="
+            mx-auto
+            mb-16
+            max-w-3xl
+            text-center
+          "
         >
           <div
             className="
               mb-5
               inline-flex
-              items-center
-              gap-2
               rounded-full
               border
               border-cyan-500/20
@@ -87,21 +125,24 @@ export default function WhyChooseSection() {
               text-cyan-300
             "
           >
-            ⚡ Infraestructura premium
+            LuxuryHosting
           </div>
 
           <h2
             className="
               text-4xl
               font-black
-              leading-tight
+              leading-[0.95]
+              tracking-tight
               text-white
               lg:text-6xl
             "
           >
-            ¿Por qué elegir{" "}
+            Infraestructura potente.
             <span
               className="
+                mt-2
+                block
                 bg-linear-to-r
                 from-cyan-400
                 to-blue-500
@@ -109,23 +150,9 @@ export default function WhyChooseSection() {
                 text-transparent
               "
             >
-              LuxuryHosting
+              Diseñada para rendir.
             </span>
-            ?
           </h2>
-
-          <p
-            className="
-              mt-6
-              text-lg
-              leading-8
-              text-zinc-400
-            "
-          >
-            Infraestructura diseñada para
-            velocidad, estabilidad y
-            rendimiento real.
-          </p>
         </motion.div>
 
         {/* GRID */}
@@ -135,7 +162,9 @@ export default function WhyChooseSection() {
               {
                 icon: Icon,
                 title,
+                subtitle,
                 description,
+                featured,
               },
               index
             ) => (
@@ -154,16 +183,17 @@ export default function WhyChooseSection() {
                 }}
                 transition={{
                   duration: 0.5,
-                  delay: index * 0.08,
+                  delay:
+                    index * 0.08,
                 }}
                 whileHover={{
                   y: -8,
                 }}
-                className="
+                className={`
                   group
                   relative
                   overflow-hidden
-                  rounded-4xl
+                  rounded-[2rem]
                   border
                   border-white/10
                   bg-[#07111f]/70
@@ -173,7 +203,14 @@ export default function WhyChooseSection() {
                   duration-300
                   hover:border-cyan-500/30
                   hover:bg-[#091626]
-                "
+                  hover:shadow-[0_0_50px_rgba(0,200,255,0.08)]
+
+                  ${
+                    featured
+                      ? "md:col-span-2"
+                      : ""
+                  }
+                `}
               >
                 {/* glow */}
                 <div
@@ -206,18 +243,18 @@ export default function WhyChooseSection() {
                     relative
                     mb-6
                     flex
-                    h-16
-                    w-16
+                    h-20
+                    w-20
                     items-center
                     justify-center
-                    rounded-2xl
+                    rounded-[1.8rem]
                     border
                     border-cyan-500/10
                     bg-cyan-500/10
                   "
                 >
                   <Icon
-                    size={30}
+                    size={36}
                     className="
                       text-cyan-400
                     "
@@ -227,22 +264,30 @@ export default function WhyChooseSection() {
                 {/* title */}
                 <h3
                   className="
-                    relative
                     text-2xl
-                    font-bold
+                    font-black
                     text-white
                   "
                 >
                   {title}
                 </h3>
 
-                {/* text */}
+                {/* subtitle */}
+                <div
+                  className="
+                    mt-2
+                    text-sm
+                    font-medium
+                    text-cyan-400
+                  "
+                >
+                  {subtitle}
+                </div>
+
+                {/* description */}
                 <p
                   className="
-                    relative
                     mt-4
-                    text-[16px]
-                    leading-7
                     text-zinc-400
                   "
                 >

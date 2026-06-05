@@ -12,139 +12,171 @@ import {
   useState,
 } from "react"
 
-const terminalLines = [
-  "sudo apt update",
-  "[OK] Repositorios sincronizados",
+const terminalSteps = [
+  {
+    command: "apt update",
+    loading:
+      "Syncing repositories...",
+    success:
+      "Repositories updated",
+  },
 
-  "",
+  {
+    command:
+      "install luxuryhosting-cloud",
+    loading:
+      "Deploying cloud infrastructure...",
+    success:
+      "Cloud online",
+  },
 
-  "sudo apt install luxuryhosting-cloud",
-  "[OK] Cloud Infrastructure instalada",
+  {
+    command:
+      "install minecraft-node",
+    loading:
+      "Deploying Minecraft server...",
+    success:
+      "Minecraft ready",
+  },
 
-  "",
+  {
+    command:
+      "install fivem-node",
+    loading:
+      "Preparing FiveM environment...",
+    success:
+      "FiveM deployed",
+  },
 
-  "sudo apt install luxuryhosting-minecraft",
-  "[OK] Minecraft nodes desplegados",
+  {
+    command:
+      "enable security-layer",
+    loading:
+      "Applying firewall rules...",
+    success:
+      "Protection enabled",
+  },
 
-  "",
-
-  "sudo apt install luxuryhosting-fivem",
-  "[OK] FiveM deploy system listo",
-
-  "",
-
-  "sudo systemctl enable wings",
-  "[OK] Pterodactyl Wings Online",
-
-  "",
-
-  "sudo ufw enable",
-  "[OK] Firewall protegido",
-
-  "",
-
-  "docker ps",
-
-  "minecraft-node-01     running",
-  "fivem-node-02         running",
-  "cloud-vps-14          running",
-  "database-cluster      running",
-
-  "",
-
-  "Servicios de LuxuryHosting operativos ✔",
+  {
+    command: "docker ps",
+    loading:
+      "Checking running containers...",
+    success:
+      "3 services running",
+  },
 ]
 
 export default function HeroSection() {
-  const [displayedText, setDisplayedText] =
-    useState("")
-
-  const [lineIndex, setLineIndex] =
+  const [step, setStep] =
     useState(0)
 
-  const [charIndex, setCharIndex] =
-    useState(0)
+  const [phase, setPhase] =
+    useState<
+      "command" |
+      "loading" |
+      "success"
+    >("command")
 
-  const [finished, setFinished] =
-    useState(false)
+  const isDone =
+    step >=
+    terminalSteps.length
 
   useEffect(() => {
-    if (
-      lineIndex >=
-      terminalLines.length
-    ) {
-      return
-    }
+    if (isDone) return
 
-    const currentLine =
-      terminalLines[lineIndex]
+    let timeout:
+      | NodeJS.Timeout
+      | undefined
 
     if (
-      charIndex <
-      currentLine.length
+      phase ===
+      "command"
     ) {
-      const timeout =
-        setTimeout(() => {
-          setDisplayedText(
-            (prev) =>
-              prev +
-              currentLine[charIndex]
-          )
-
-          setCharIndex(
-            (prev) => prev + 1
-          )
-        }, 32)
-
-      return () =>
-        clearTimeout(timeout)
+      timeout =
+        setTimeout(
+          () =>
+            setPhase(
+              "loading"
+            ),
+          800
+        )
     }
 
-    const pause = setTimeout(() => {
-      setDisplayedText(
-        (prev) => prev + "\n"
-      )
+    if (
+      phase ===
+      "loading"
+    ) {
+      timeout =
+        setTimeout(
+          () =>
+            setPhase(
+              "success"
+            ),
+          1400
+        )
+    }
 
-      setLineIndex(
-        (prev) => prev + 1
-      )
+    if (
+      phase ===
+      "success"
+    ) {
+      timeout =
+        setTimeout(
+          () => {
+            if (
+              step <
+              terminalSteps.length -
+                1
+            ) {
+              setStep(
+                (
+                  prev
+                ) =>
+                  prev + 1
+              )
 
-      setCharIndex(0)
-    }, 500)
+              setPhase(
+                "command"
+              )
+            } else {
+              setStep(
+                terminalSteps.length
+              )
+            }
+          },
+          1100
+        )
+    }
 
     return () =>
-      clearTimeout(pause)
-  }, [lineIndex, charIndex])
-
-  useEffect(() => {
-    if (
-      lineIndex >=
-      terminalLines.length
-    ) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setFinished(true)
-    }
-  }, [lineIndex])
+      clearTimeout(
+        timeout
+      )
+  }, [
+    step,
+    phase,
+    isDone,
+  ])
 
   return (
-    <section className="relative overflow-hidden pt-30 pb-20 lg:pt-42.5 lg:pb-28">
-      {/* glow */}
+    <section className="relative overflow-hidden pt-30 pb-20 lg:pt-42 lg:pb-28">
+      {/* BACKGROUND GLOW */}
       <div
         className="
           absolute
           left-1/2
-          top-[20%]
-          h-125
-          w-125
+          top-[15%]
+          h-137.5
+          w-137.5
           -translate-x-1/2
           rounded-full
           bg-cyan-500/10
-          blur-[150px]
+          blur-[180px]
         "
       />
 
       <div className="relative mx-auto max-w-7xl px-5 lg:px-6">
-        <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
+        <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
           {/* LEFT */}
           <motion.div
             initial={{
@@ -158,10 +190,26 @@ export default function HeroSection() {
             transition={{
               duration: 0.7,
             }}
+            className="relative"
           >
-            {/* badge */}
+            {/* TEXT GLOW */}
             <div
               className="
+                absolute
+                left-0
+                top-10
+                h-62.5
+                w-62.5
+                rounded-full
+                bg-cyan-500/10
+                blur-[90px]
+              "
+            />
+
+            {/* BADGE */}
+            <div
+              className="
+                relative
                 mb-6
                 inline-flex
                 items-center
@@ -182,13 +230,14 @@ export default function HeroSection() {
               Deploy instantáneo
             </div>
 
-            {/* title */}
+            {/* TITLE */}
             <h1
               className="
-                max-w-175
-                text-[2.7rem]
+                relative
+                max-w-187.5
+                text-[2.8rem]
                 font-black
-                leading-[0.95]
+                leading-[0.92]
                 tracking-tight
                 text-white
                 sm:text-6xl
@@ -199,7 +248,7 @@ export default function HeroSection() {
 
               <span
                 className="
-                  mt-1
+                  mt-2
                   block
                   bg-linear-to-r
                   from-cyan-400
@@ -212,26 +261,24 @@ export default function HeroSection() {
               </span>
             </h1>
 
-            {/* text */}
+            {/* TEXT */}
             <p
               className="
-                mt-6
-                max-w-155
+                mt-7
+                max-w-145
                 text-base
                 leading-8
                 text-zinc-400
                 sm:text-lg
               "
             >
-              Servidores gaming y cloud
-              premium impulsados por
-              hardware Ryzen & EPYC para
-              máxima velocidad,
-              estabilidad y despliegue
-              instantáneo.
+              Infraestructura gaming &
+              cloud impulsada por Ryzen
+              y EPYC para rendimiento
+              real.
             </p>
 
-            {/* buttons */}
+            {/* BUTTONS */}
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <button
                 className="
@@ -253,7 +300,6 @@ export default function HeroSection() {
                 "
               >
                 Empezar ahora
-
                 <ArrowRight size={18} />
               </button>
 
@@ -277,46 +323,30 @@ export default function HeroSection() {
               </button>
             </div>
 
-            {/* trust */}
-            <div className="mt-10 flex flex-wrap gap-3">
-              {[
-                "99.99% uptime",
-                "Anti-DDoS",
-                "Deploy instantáneo",
-                "Ryzen Nodes",
-              ].map((item) => (
-                <div
-                  key={item}
-                  className="
-                    flex
-                    items-center
-                    gap-2
-                    rounded-xl
-                    border
-                    border-white/10
-                    bg-white/3
-                    px-4
-                    py-3
-                  "
-                >
-                  <CheckCircle2
-                    size={16}
-                    className="text-cyan-400"
-                  />
+            {/* TRUST BAR */}
+<div
+  className="
+    mt-8
+    flex
+    items-center
+    gap-3
+    text-sm
+    text-zinc-500
+  "
+>
+  <div className="flex items-center gap-2">
+    <div className="h-2 w-2 rounded-full bg-green-400" />
+    All systems operational
+  </div>
 
-                  <span
-                    className="
-                      text-xs
-                      font-medium
-                      text-zinc-300
-                      sm:text-sm
-                    "
-                  >
-                    {item}
-                  </span>
-                </div>
-              ))}
-            </div>
+  <span>•</span>
+
+  <span>99.99% uptime</span>
+
+  <span>•</span>
+
+  <span>Ryzen powered</span>
+</div>  
           </motion.div>
 
           {/* TERMINAL */}
@@ -332,18 +362,36 @@ export default function HeroSection() {
             transition={{
               duration: 0.8,
             }}
+            className="relative"
           >
+            {/* TERMINAL GLOW */}
             <div
               className="
+                absolute
+                left-1/2
+                top-1/2
+                h-75
+                w-75
+                -translate-x-1/2
+                -translate-y-1/2
+                rounded-full
+                bg-cyan-500/10
+                blur-[100px]
+              "
+            />
+
+            <div
+              className="
+                relative
                 overflow-hidden
                 rounded-4xl
                 border
                 border-cyan-500/10
-                bg-[#101225]
+                bg-[#0b1120]
                 shadow-[0_0_80px_rgba(0,200,255,0.08)]
               "
             >
-              {/* top */}
+              {/* TOP */}
               <div
                 className="
                   flex
@@ -356,52 +404,113 @@ export default function HeroSection() {
                 "
               >
                 <div className="flex gap-2">
-                  <div className="h-3 w-3 rounded-full bg-yellow-400" />
-                  <div className="h-3 w-3 rounded-full bg-yellow-400" />
-                  <div className="h-3 w-3 rounded-full bg-yellow-400" />
+                  <div className="h-3 w-3 rounded-full bg-red-500" />
+                  <div className="h-3 w-3 rounded-full bg-yellow-500" />
+                  <div className="h-3 w-3 rounded-full bg-green-500" />
                 </div>
 
-                <span className="font-semibold text-zinc-300">
-                  Terminal
+                <span className="text-sm text-zinc-500">
+                  root@luxuryhosting
                 </span>
               </div>
 
-              {/* body */}
+              {/* BODY */}
               <div
                 className="
-                  h-105
-                  overflow-hidden
-                  p-6
+                  h-[260px]
+                  p-7
                   font-mono
-                  text-[14px]
-                  leading-8
-                  text-[#d8f3b0]
+                  text-[15px]
                 "
               >
-                <pre className="whitespace-pre-wrap">
-                  {displayedText}
-
-                  {!finished && (
-                    <span
-                      className="
-                        animate-pulse
-                        text-cyan-400
-                      "
-                    >
-                      █
-                    </span>
-                  )}
-                </pre>
-
-                {finished && (
-                  <div className="mt-5 flex items-center gap-2 text-[#d8f3b0]">
-                    <span>
+                {!isDone && (
+                  <>
+                    <div className="text-zinc-500">
                       root@luxuryhosting:~#
-                    </span>
+                    </div>
 
-                    <span className="animate-pulse text-cyan-400">
-                      █
-                    </span>
+                    <div className="mt-2 text-white">
+                      {
+                        terminalSteps[
+                          step
+                        ]
+                          ?.command
+                      }
+                    </div>
+
+                    {(phase ===
+                      "loading" ||
+                      phase ===
+                        "success") && (
+                      <div className="mt-6 flex items-center gap-3">
+                        {phase ===
+                        "loading" ? (
+                          <>
+                            <div
+                              className="
+                                h-4
+                                w-4
+                                animate-spin
+                                rounded-full
+                                border-2
+                                border-cyan-400
+                                border-t-transparent
+                              "
+                            />
+
+                            <span className="text-cyan-300">
+                              {
+                                terminalSteps[
+                                  step
+                                ]
+                                  ?.loading
+                              }
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="text-green-400">
+                              ✓
+                            </span>
+
+                            <span className="text-green-300">
+                              {
+                                terminalSteps[
+                                  step
+                                ]
+                                  ?.success
+                              }
+                            </span>
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {isDone && (
+                  <div>
+                    <div className="text-zinc-500">
+                      root@luxuryhosting:~#
+                    </div>
+
+                    <div className="mt-4 space-y-3 text-green-300">
+                      <div>
+                        ✓ minecraft-node running
+                      </div>
+
+                      <div>
+                        ✓ fivem-node running
+                      </div>
+
+                      <div>
+                        ✓ cloud-vps online
+                      </div>
+
+                      <div className="pt-5 text-cyan-400">
+                        Infrastructure ready █
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>

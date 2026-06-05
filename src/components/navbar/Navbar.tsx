@@ -26,16 +26,17 @@ export default function Navbar() {
         z-50
         w-full
         border-b
-        border-cyan-500/20
-        bg-[#081120]/95
-        backdrop-blur-xl
+        border-cyan-500/10
+        bg-[#07111f]/70
+        backdrop-blur-2xl
+        supports-backdrop-filter:bg-[#07111f]/60
       "
     >
       <Container>
         <div
           className="
             flex
-            h-[78px]
+            h-20.5
             items-center
             justify-between
           "
@@ -43,16 +44,37 @@ export default function Navbar() {
           {/* LEFT */}
           <Link
             href="/"
-            className="flex items-center gap-3"
+            className="
+              group
+              relative
+              flex
+              items-center
+              gap-3
+            "
           >
-            <div className="flex items-center gap-2">
+            <div
+              className="
+                absolute
+                -inset-4
+                rounded-full
+                bg-cyan-500/0
+                blur-2xl
+                transition-all
+                duration-500
+                group-hover:bg-cyan-500/10
+              "
+            />
+
+            <div className="relative flex items-center gap-3">
               <span
                 className="
-                  text-[44px]
+                  text-[42px]
                   font-black
-                  leading-none
                   tracking-tight
                   text-white
+                  transition-all
+                  duration-300
+                  group-hover:text-cyan-300
                 "
               >
                 LH
@@ -61,23 +83,39 @@ export default function Navbar() {
               <div>
                 <h1
                   className="
-                    text-[30px]
+                    text-[28px]
                     font-black
                     leading-none
+                    tracking-tight
                     text-white
                   "
                 >
                   LuxuryHosting
                 </h1>
+
+                <span
+                  className="
+                    text-xs
+                    text-zinc-500
+                  "
+                >
+                  Premium Infrastructure
+                </span>
               </div>
             </div>
           </Link>
 
-          {/* CENTER NAV */}
+          {/* CENTER */}
           <nav
             className="
               hidden
               items-center
+              rounded-full
+              border
+              border-white/10
+              bg-white/3
+              px-3
+              py-2
               lg:flex
             "
           >
@@ -93,17 +131,20 @@ export default function Navbar() {
             >
               <button
                 className="
+                  group
+                  relative
                   flex
-                  h-[78px]
                   items-center
                   gap-2
-                  border-r
-                  border-white/10
-                  px-8
+                  rounded-full
+                  px-5
+                  py-3
                   text-[15px]
                   font-semibold
-                  text-white
+                  text-zinc-300
                   transition-all
+                  duration-300
+                  hover:bg-cyan-500/10
                   hover:text-cyan-300
                 "
               >
@@ -112,11 +153,12 @@ export default function Navbar() {
                 <ChevronDown
                   size={16}
                   className={`
-                    transition-transform
+                    transition-all
                     duration-300
                     ${
-                      activeMenu === "games"
-                        ? "rotate-180"
+                      activeMenu ===
+                      "games"
+                        ? "rotate-180 text-cyan-300"
                         : ""
                     }
                   `}
@@ -139,6 +181,9 @@ export default function Navbar() {
                       opacity: 0,
                       y: 12,
                     }}
+                    transition={{
+                      duration: 0.25,
+                    }}
                   >
                     <GameServersMenu />
                   </motion.div>
@@ -159,16 +204,17 @@ export default function Navbar() {
               <button
                 className="
                   flex
-                  h-[78px]
                   items-center
                   gap-2
-                  border-r
-                  border-white/10
-                  px-8
+                  rounded-full
+                  px-5
+                  py-3
                   text-[15px]
                   font-semibold
-                  text-white
+                  text-zinc-300
                   transition-all
+                  duration-300
+                  hover:bg-cyan-500/10
                   hover:text-cyan-300
                 "
               >
@@ -177,11 +223,12 @@ export default function Navbar() {
                 <ChevronDown
                   size={16}
                   className={`
-                    transition-transform
+                    transition-all
                     duration-300
                     ${
-                      activeMenu === "cloud"
-                        ? "rotate-180"
+                      activeMenu ===
+                      "cloud"
+                        ? "rotate-180 text-cyan-300"
                         : ""
                     }
                   `}
@@ -204,6 +251,9 @@ export default function Navbar() {
                       opacity: 0,
                       y: 12,
                     }}
+                    transition={{
+                      duration: 0.25,
+                    }}
                   >
                     <InfrastructureMenu />
                   </motion.div>
@@ -211,38 +261,37 @@ export default function Navbar() {
               </AnimatePresence>
             </div>
 
-            {/* ABOUT */}
+            {/* LINKS */}
             <Link
               href="/"
               className="
-                flex
-                h-[78px]
-                items-center
-                border-r
-                border-white/10
-                px-8
+                rounded-full
+                px-5
+                py-3
                 text-[15px]
                 font-semibold
-                text-white
+                text-zinc-300
                 transition-all
+                duration-300
+                hover:bg-cyan-500/10
                 hover:text-cyan-300
               "
             >
               Sobre nosotros
             </Link>
 
-            {/* SUPPORT */}
             <Link
               href="/"
               className="
-                flex
-                h-[78px]
-                items-center
-                px-8
+                rounded-full
+                px-5
+                py-3
                 text-[15px]
                 font-semibold
-                text-white
+                text-zinc-300
                 transition-all
+                duration-300
+                hover:bg-cyan-500/10
                 hover:text-cyan-300
               "
             >
@@ -252,22 +301,24 @@ export default function Navbar() {
 
           {/* RIGHT */}
           <div className="flex items-center gap-4">
-            {/* desktop */}
-            <div className="hidden items-center gap-4 lg:flex">
+            {/* DESKTOP */}
+            <div className="hidden items-center gap-3 lg:flex">
               <button
                 className="
-                  rounded-xl
+                  rounded-2xl
                   border
-                  border-yellow-500/30
-                  bg-yellow-500/10
+                  border-cyan-500/20
+                  bg-cyan-500/10
                   px-5
-                  py-2
+                  py-3
                   text-sm
                   font-semibold
-                  text-yellow-300
+                  text-cyan-300
                   transition-all
                   duration-300
-                  hover:bg-yellow-500/20
+                  hover:scale-[1.03]
+                  hover:border-cyan-400/30
+                  hover:bg-cyan-500/20
                 "
               >
                 Login
@@ -278,14 +329,22 @@ export default function Navbar() {
                   flex
                   items-center
                   gap-2
+                  rounded-2xl
+                  border
+                  border-white/10
+                  bg-white/3
+                  px-4
+                  py-3
                   text-sm
-                  font-semibold
-                  text-white
+                  font-medium
+                  text-zinc-300
                 "
               >
-                🇨🇴 Español - COP
+                🇨🇴 COP
 
-                <ChevronDown size={14} />
+                <ChevronDown
+                  size={14}
+                />
               </button>
             </div>
 

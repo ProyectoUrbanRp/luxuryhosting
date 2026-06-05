@@ -1,53 +1,58 @@
 "use client"
 
 import Link from "next/link"
+
 import {
-  Shield,
-  Activity,
-  Server,
+  ShieldCheck,
   Cpu,
+  Rocket,
+  Activity,
 } from "lucide-react"
 
+import { motion } from "framer-motion"
+
 const gameServers = [
-  "Minecraft",
-  "FiveM",
-  "Rust",
-  "Palworld",
-  "Valheim",
+  "Minecraft Hosting",
+  "FiveM Hosting",
+  "Rust Hosting",
+  "Palworld Hosting",
+  "Project Zomboid",
 ]
 
 const cloudServices = [
   "Cloud VPS",
   "Dedicated Servers",
-  "Web Hosting",
-  "Databases",
-  "AI Infrastructure",
+  "Ryzen Infrastructure",
+  "Game VPS",
+  "DDoS Protection",
 ]
 
 const company = [
-  "Sobre nosotros",
-  "Estado del sistema",
-  "Soporte",
-  "Contacto",
+  "About Us",
+  "Support",
+  "Status",
+  "Contact",
+  "Discord",
 ]
 
 const legal = [
-  "Privacidad",
-  "Términos",
-  "Reembolsos",
+  "Terms of Service",
+  "Privacy Policy",
+  "Refund Policy",
+  "Acceptable Use",
 ]
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-white/10 bg-[#050b16]">
+    <footer className="relative overflow-hidden border-t border-white/10">
       {/* glow */}
       <div
         className="
           absolute
-          bottom-0
           left-1/2
-          h-75
-          w-75
+          top-0
+          h-100
+          w-100
           -translate-x-1/2
           rounded-full
           bg-cyan-500/10
@@ -55,121 +60,186 @@ export default function Footer() {
         "
       />
 
-      <div className="relative mx-auto max-w-7xl px-6 py-20">
-        <div className="grid gap-14 lg:grid-cols-[1.3fr_1fr_1fr_1fr_1fr]">
-          {/* BRAND */}
+      <div className="relative mx-auto max-w-7xl px-6">
+        {/* STATUS */}
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 20,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          className="
+            flex
+            flex-col
+            items-center
+            justify-between
+            gap-5
+            border-b
+            border-white/10
+            py-8
+            text-center
+            lg:flex-row
+            lg:text-left
+          "
+        >
           <div>
-            <div className="flex items-center gap-3">
-              <div
+            <div
+              className="
+                flex
+                items-center
+                justify-center
+                gap-2
+                text-sm
+                font-medium
+                text-green-400
+                lg:justify-start
+              "
+            >
+              <div className="h-2.5 w-2.5 animate-pulse rounded-full bg-green-400" />
+
+              All systems operational
+            </div>
+
+            <p className="mt-2 text-zinc-500">
+              99.99% uptime • Ryzen powered
+            </p>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-3">
+            {[
+              {
+                icon: ShieldCheck,
+                text: "Anti-DDoS",
+              },
+
+              {
+                icon: Cpu,
+                text: "Ryzen Nodes",
+              },
+
+              {
+                icon: Rocket,
+                text: "12s Deploy",
+              },
+
+              {
+                icon: Activity,
+                text: "99.99 Uptime",
+              },
+            ].map((item) => {
+              const Icon = item.icon
+
+              return (
+                <div
+                  key={item.text}
+                  className="
+                    flex
+                    items-center
+                    gap-2
+                    rounded-xl
+                    border
+                    border-white/10
+                    bg-white/3
+                    px-4
+                    py-3
+                  "
+                >
+                  <Icon
+                    size={16}
+                    className="text-cyan-400"
+                  />
+
+                  <span className="text-sm text-zinc-300">
+                    {item.text}
+                  </span>
+                </div>
+              )
+            })}
+          </div>
+        </motion.div>
+
+        {/* MAIN FOOTER */}
+        <div className="grid gap-12 py-16 lg:grid-cols-12">
+          {/* BRAND */}
+          <div className="lg:col-span-4">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-3"
+            >
+              <span
                 className="
-                  flex
-                  h-14
-                  w-14
-                  items-center
-                  justify-center
-                  rounded-2xl
-                  bg-cyan-500
-                  shadow-[0_0_40px_rgba(0,200,255,0.35)]
+                  text-5xl
+                  font-black
+                  text-white
                 "
               >
-                <Server className="text-white" size={28} />
-              </div>
+                LH
+              </span>
 
               <div>
-                <h3 className="text-2xl font-black text-white">
+                <h3
+                  className="
+                    text-2xl
+                    font-black
+                    text-white
+                  "
+                >
                   LuxuryHosting
                 </h3>
 
                 <p className="text-sm text-zinc-500">
-                  Cloud Infrastructure
+                  Premium Cloud & Game Hosting
                 </p>
               </div>
-            </div>
+            </Link>
 
             <p
               className="
                 mt-6
-                max-w-sm
-                text-[15px]
-                leading-7
+                max-w-87.5
+                leading-8
                 text-zinc-400
               "
             >
-              Infraestructura cloud y game hosting
-              de alto rendimiento para proyectos
-              que exigen estabilidad real.
+              Hosting premium diseñado para
+              gaming communities, servidores
+              cloud e infraestructura moderna.
             </p>
-
-            {/* badges */}
-            <div className="mt-8 flex flex-wrap gap-3">
-              {[
-                {
-                  icon: Activity,
-                  label: "99.99% Uptime",
-                },
-                {
-                  icon: Shield,
-                  label: "Enterprise DDoS",
-                },
-                {
-                  icon: Cpu,
-                  label: "24/7 Support",
-                },
-              ].map((item) => {
-                const Icon = item.icon
-
-                return (
-                  <div
-                    key={item.label}
-                    className="
-                      flex
-                      items-center
-                      gap-2
-                      rounded-full
-                      border
-                      border-cyan-500/10
-                      bg-cyan-500/5
-                      px-4
-                      py-2
-                      text-sm
-                      text-cyan-300
-                    "
-                  >
-                    <Icon size={14} />
-
-                    {item.label}
-                  </div>
-                )
-              })}
-            </div>
           </div>
 
-          {/* COLUMN */}
-          <FooterColumn
-            title="Game Servers"
-            items={gameServers}
-          />
+          {/* COLUMNS */}
+          <div className="grid gap-10 sm:grid-cols-2 lg:col-span-8 lg:grid-cols-4">
+            <FooterColumn
+              title="Game Servers"
+              items={gameServers}
+            />
 
-          <FooterColumn
-            title="Cloud Services"
-            items={cloudServices}
-          />
+            <FooterColumn
+              title="Cloud Services"
+              items={cloudServices}
+            />
 
-          <FooterColumn
-            title="Company"
-            items={company}
-          />
+            <FooterColumn
+              title="Company"
+              items={company}
+            />
 
-          <FooterColumn
-            title="Legal"
-            items={legal}
-          />
+            <FooterColumn
+              title="Legal"
+              items={legal}
+            />
+          </div>
         </div>
 
-        {/* bottom */}
+        {/* BOTTOM */}
         <div
           className="
-            mt-16
             flex
             flex-col
             items-center
@@ -177,13 +247,13 @@ export default function Footer() {
             gap-4
             border-t
             border-white/10
-            pt-8
-            text-sm
-            text-zinc-500
+            py-8
+            text-center
             lg:flex-row
+            lg:text-left
           "
         >
-          <p>
+          <p className="text-sm text-zinc-500">
             © 2026 LuxuryHosting.
             Built for performance.
           </p>
@@ -193,26 +263,11 @@ export default function Footer() {
               flex
               items-center
               gap-2
-              rounded-full
-              border
-              border-green-500/20
-              bg-green-500/10
-              px-4
-              py-2
-              text-green-400
+              text-sm
+              text-zinc-500
             "
           >
-            <div
-              className="
-                h-2
-                w-2
-                animate-pulse
-                rounded-full
-                bg-green-400
-              "
-            />
-
-            Systems Operational
+            Powered by Ryzen Infrastructure
           </div>
         </div>
       </div>
@@ -232,28 +287,31 @@ function FooterColumn({
       <h4
         className="
           mb-5
+          text-sm
           font-bold
-          text-white
+          uppercase
+          tracking-[0.25em]
+          text-zinc-400
         "
       >
         {title}
       </h4>
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         {items.map((item) => (
-          <Link
+          <button
             key={item}
-            href="#"
             className="
               block
+              text-left
               text-zinc-400
-              transition-colors
+              transition-all
               duration-300
               hover:text-cyan-400
             "
           >
             {item}
-          </Link>
+          </button>
         ))}
       </div>
     </div>
